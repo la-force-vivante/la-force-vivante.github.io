@@ -24,8 +24,8 @@ jobs:
 
       # Node is preinstalled on ubuntu-latest, so npx works out of the box.
       # sass@1 = Dart Sass, the official compiler (node-sass is deprecated).
-      - name: Compile style.scss -> style.css
-        run: npx --yes sass@1 style.scss style.css --no-source-map
+      - name: Compile css/style.scss -> css/style.css
+        run: npx --yes sass@1 css/style.scss css/style.css --no-source-map
 
       # On pushes: commit the compiled CSS back to the same branch.
       # On pull requests: the step above still runs, so the PR check fails
