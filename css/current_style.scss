@@ -1458,9 +1458,6 @@ body.dark {
 }
 
 /* PANNEAU VOTE */
-#ribbon {
-    //display:none; 
-}
 
 #ribbon {
     width: 30px;
@@ -2094,7 +2091,8 @@ textarea.gen-in {
     position: relative;
 }
 
-.dterm img {}
+/*
+.dterm img {}*/
 
 .wrapperRules {
     background: #b7b7b74f;
@@ -2405,7 +2403,8 @@ a.forumtitle:hover {
     column-count: 2;
 }
 
-.contentPrezBio {}
+/*
+.contentPrezBio {}*/
 
 #logoPrez {
     max-width: 145px;
@@ -2559,9 +2558,10 @@ h1.page-title {
     /*visibility: hidden;*/
 }
 
+/*
 .topic-actions-buttons {
-    /*visibility: hidden;*/
-}
+    visibility: hidden;
+}*/
 
 .sub-header-buttons-down .pagination {
     float: right;
