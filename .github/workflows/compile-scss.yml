@@ -1,0 +1,45 @@
+name: Compile SCSS
+
+on:
+  push:
+    paths:
+      - "**.scss"
+      - ".github/workflows/compile-scss.yml"
+  pull_request:
+    paths:
+      - "**.scss"
+      - ".github/workflows/compile-scss.yml"
+
+# Needed so the job can commit style.css back to the branch
+permissions:
+  contents: write
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      # Node is preinstalled on ubuntu-latest, so npx works out of the box.
+      # sass@1 = Dart Sass, the official compiler (node-sass is deprecated).
+      - name: Compile style.scss -> style.css
+        run: npx --yes sass@1 style.scss style.css --no-source-map
+
+      # On pushes: commit the compiled CSS back to the same branch.
+      # On pull requests: the step above still runs, so the PR check fails
+      # if the SCSS doesn't compile — but nothing is committed (fork PRs
+      # only get a read-only token anyway).
+      - name: Commit compiled CSS
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add style.css
+          if git diff --staged --quiet; then
+            echo "style.css is already up to date."
+          else
+            git commit -m "Compile style.scss to style.css"
+            git push
+          fi
