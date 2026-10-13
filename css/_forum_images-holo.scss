@@ -1,0 +1,29 @@
+// Image de background pour les catégories du forum.
+// Les correspondances nombre : image viennent de l'adresse du forum, par exemple : /f37-espace-sith donne 37 en nombre.
+// Les forums non listés auront simplement un gradient.
+
+$forum-images: (
+    1: "https://i.servimg.com/u/f68/20/44/64/73/regles10.jpg",
+    // Règlement & Contexte
+    3: "https://i.servimg.com/u/f68/20/44/64/73/person10.jpg",
+    // Les personnages
+    14: "https://i.servimg.com/u/f68/20/44/64/73/ebdbbx10.jpg",
+    // Communications (HoloNet image)
+    27: "https://i.servimg.com/u/f68/20/44/64/73/republ10.jpg",
+    // Espace Républicain
+    29: "https://i.servimg.com/u/f68/20/44/64/73/galact10.jpg",
+    // Espace Intersidéral
+    37: "https://i.servimg.com/u/f68/20/44/64/73/sith10.jpg",
+    // Espace Sith
+    42: "https://i.servimg.com/u/f68/20/44/64/73/hutt10.jpg",
+    // Espace Hutt
+    47: "https://i.servimg.com/u/f68/20/44/64/73/indepe10.jpg",
+    // Mondes Neutres
+    // No image yet: 4 Communauté, 5 Animations, 10 Annonces, 51 Espace Mandalorien
+);
+
+@each $id, $url in $forum-images {
+    .forum-game-card[data-url*="/f#{$id}-"] {
+        --card-image: url("#{$url}");
+    }
+}

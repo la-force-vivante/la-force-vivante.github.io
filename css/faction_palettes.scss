@@ -1,0 +1,172 @@
+/* Barres pour les CAMPS!*/
+.ui-stack-faction {
+    display: grid;
+    gap: 14px;
+    max-width: 600px;
+    grid-template-columns: 15% 25% 25% 25% 25% 25%;
+    --bar-height: 22px;
+    --frame-bg: #0b0f14;
+    --frame-border: #132029;
+    --frame-inner: #1a2d39;
+    --ticks: rgba(255, 255, 255, .055);
+    --scan: rgba(255, 255, 255, .08);
+    --shine: rgba(255, 255, 255, .18);
+    --text: #b9d8e6;
+    --label: #dddddd;
+    --cut: 9px;
+    /* bevel size */
+    --speed: 4s;
+    /* scanline speed */
+    --glow-alpha: .45;
+    /* overall outer glow strength */
+    --max: 150;
+
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Rajdhani", sans-serif;
+
+}
+
+/* Themes (you can keep these as-is) */
+.faction-bar.hutt {
+    --c1: #6bff8e;
+    --c2: #41e271;
+    --c3: #2fb45a;
+}
+
+.faction-bar.jedi {
+    --c1: #66E3FF;
+    --c2: #3DDBFF;
+    --c3: #00BCE6;
+}
+
+.faction-bar.republique {
+    --c1: #ffc166;
+    --c2: #ffab3d;
+    --c3: #e68700;
+}
+
+.faction-bar.siths {
+    --c1: #ff2929;
+    --c2: #ff0000;
+    --c3: #D60000;
+}
+
+.faction-bar.mandalorien {
+    --c1: #FF7729;
+    --c2: #FF5D00;
+    --c3: #D64E00;
+}
+
+/* Optional: color for the negative side (left). Default: cyan-ish. */
+.faction-bar {
+    --neg1: #CA29FF;
+    --neg2: #BF00FF;
+    --neg3: #A100D6;
+}
+
+.faction-bar {
+    --value: 0;
+    /* -100 → 100 */
+    position: relative;
+    height: var(--bar-height);
+    background:
+        /* segment ticks */
+        repeating-linear-gradient(to right,
+            transparent 0 calc(10% - 1px),
+            var(--ticks) calc(10% - 1px) 10%),
+        linear-gradient(180deg, #0f151b, #0b1015);
+    /* frame shading */
+    border: 1px solid var(--frame-border);
+    box-shadow:
+        inset 0 0 0 1px var(--frame-inner),
+        0 0 40px rgba(0, 255, 255, calc(var(--glow-alpha) * .15));
+    color: var(--text);
+    border-radius: 6px;
+    overflow: hidden;
+    clip-path: polygon(var(--cut) 0%, 100% 0%, 100% calc(100% - var(--cut)),
+            calc(100% - var(--cut)) 100%, 0% 100%, 0% var(--cut));
+    /* center guide (subtle) */
+    background-image:
+        repeating-linear-gradient(to right, transparent 0 49px, var(--ticks) 49px 50px),
+        linear-gradient(180deg, #0f151b, #0b1015);
+}
+
+/* --- Bipolar fills with scanlines --- */
+/* NOTE: width uses 0.5% per unit so 100 → 50% (half the bar) */
+.faction-bar::before,
+.faction-bar::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    border-radius: 4px;
+    z-index: 0;
+    /* label stays above */
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, .12);
+    /* scan layer first, then the core gradient */
+    background:
+        repeating-linear-gradient(135deg, var(--scan) 0 10px, transparent 10px 20px),
+        linear-gradient(90deg, var(--c1), var(--c2) 60%, var(--c3));
+    animation: scan var(--speed) linear infinite;
+}
+
+/* Positive (right half) */
+.faction-bar::before {
+    left: 50%;
+    width: calc(max(var(--value), 0) * (50 / var(--max)) * 1%);
+    /* 0 → 50% */
+    /* rim along the moving edge */
+    mask: linear-gradient(90deg, black 0 96%, transparent 100%);
+    box-shadow:
+        inset 0 0 12px rgba(255, 255, 255, .12),
+        0 0 16px 2px color-mix(in oklab, var(--c2), black 20%);
+}
+
+/* Negative (left half) */
+.faction-bar::after {
+    right: 50%;
+    width: calc(max(-1 * var(--value), 0) * (50 / var(--max)) * 1%);
+    /* 0 → 50% */
+    background:
+        repeating-linear-gradient(45deg, var(--scan) 0 10px, transparent 10px 20px),
+        linear-gradient(270deg, var(--neg1), var(--neg2) 60%, var(--neg3));
+    mask: linear-gradient(270deg, black 0 96%, transparent 100%);
+    box-shadow:
+        inset 0 0 12px rgba(255, 255, 255, .12),
+        0 0 16px 2px color-mix(in oklab, var(--neg2), black 20%);
+}
+
+/* Label (always on top) */
+.faction-bar .label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* center horizontally */
+    font-weight: 600;
+    letter-spacing: .35px;
+    text-shadow: 0 0 6px rgba(0, 0, 0, .8);
+    color: var(--label);
+    font-family: "Rajdhani", system-ui, sans-serif;
+    text-transform: uppercase;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* subtle top shine on the frame */
+.faction-bar .label::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 40%;
+    background: linear-gradient(180deg, var(--shine), transparent);
+    pointer-events: none;
+}
+
+.faction-bar.slim {
+    --bar-height: 16px;
+    font-size: 11px;
+}

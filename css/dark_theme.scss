@@ -1,0 +1,296 @@
+html.dark,
+body.dark {
+    background-color: var(--bg_couleur_1_noel); //#1c1418;
+    color: var(--couleur_texte_noel); //#fbfbfb;
+}
+
+.dark {
+    blockquote {
+        background-color: var(--couleur_citation_boite) !important;
+        color: var(--couleur_citation_texte) !important;
+        font-family: var(--police_citation) !important;
+    }
+
+    #qeel .qeel2_1 {
+        border-bottom: 1px solid var(--groupe_sousbande_couleur) !important;
+    }
+
+    option {
+        color: var(--couleur_texte_noel) !important;
+    }
+
+    .button-round {
+        background-color: var(--couleur_nouveau_mp_bouton) !important;
+    }
+
+    .button-round:hover {
+        background-color: var(--couleur_nouveau_mp_bouton_survol) !important;
+    }
+
+    div.panel {
+        color: var(--panelColor) !important;
+    }
+
+    #pa #myText {
+        color: var(--couleur_texte_nom_perso_iframe) !important;
+    }
+
+    #sceditor_smilies {
+        background-color: var(--couleur_fond_posts_noel) !important;
+    }
+
+    #page-footer {
+        background-color: var(--bg_couleur_1_noel);
+    }
+
+    .postprofile-rank,
+    .module,
+    #cp-main h1 {
+        color: var(--couleur_texte_noel) !important;
+    }
+
+
+    /*
+    Magie noire: on utilise une map SCSS, pour remplacer les images directement dans le thème
+    en s'épargnant beaucoup de code :)
+    */
+    $base: "https://i.servimg.com/u/f21/14/95/76/18/";
+
+    $dark-images: (
+        "bouton11.png": "dark_b12.png",
+        "bouton12.png": "dark_b11.png",
+        "bouton13.png": "dark_b10.png",
+        "bouton24.png": "dark_b13.png",
+        "bouton23.png": "dark_b14.png",
+        "bouton21.png": "dark_b15.png",
+        "bouton18.png": "dark_b16.png",
+        "bouton17.png": "dark_b17.png",
+        "bouton22.png": "dark_b18.png",
+        "bouton14.png": "dark_b19.png",
+        "bouton15.png": "dark_b20.png",
+        "titre_10.png": "dark_t10.png"
+    );
+
+$forum-icons: (
+    "https://2img.net/i.ibb.co/4d9FgjL/New-v3-80.png": var(--url_new_dark),
+    "https://2img.net/i.ibb.co/4jhrqP5/New-v3-80.png": var(--url_new_dark),
+    "https://2img.net/i.ibb.co/4jhrqP5/No-New-v3-80.png": var(--url_no_new_dark),
+    "https://2img.net/i.ibb.co/7jY0nB9/Locked-v3-80.png": var(--url_locked_dark)
+);
+
+@each $src, $replacement in $forum-icons {
+    img[src="#{$src}"] {
+        content: $replacement !important;
+    }
+
+    .icon[style*="#{$src}"] {
+        background-image: $replacement !important;
+    }
+}
+
+@each $original, $replacement in $dark-images {
+    $src: "#{$base}#{$original}";
+    $dark: url("#{$base}#{$replacement}");
+
+    img[src="#{$src}"] {
+        content: $dark !important;
+    }
+
+    .icon[style*="#{$src}"] {
+        background-image: $dark !important;
+    }
+}
+
+img[src="#{$base}bannie10.png"] {
+    content: url("https://cdn.discordapp.com/attachments/1175828744385081518/1183549014805852192/Titre_Forum_Noel_Sombre_2_Small.webp?ex=6591f76a&is=657f826a&hm=9d32a92163c6198a4ef18fbb65130bb4980ce80a0cd037936c5bad3a85cfab28&") !important;
+}
+
+.headerbar {
+    background-image: url("https://2img.net/i.imgur.com/MmhIpKs.png");
+}
+
+
+span[style="color:#000000;"] {
+    color: var(--couleur_texte_noel) !important;
+}
+
+span[style="color:#444444;"] {
+    color: var(--couleur_texte_noel) !important;
+}
+
+#ribbon {
+    background-color: var(--couleur_bandeau_noel);
+}
+
+
+
+#wrap {
+    background-color: var(--couleur_cadre_interne_noel); //#383536;
+    border: 1px solid;
+    font-size: 1.2rem;
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 24px 36px;
+    width: 100%;
+}
+
+
+.wrapperRules {
+    background: #1f1c1c4f;
+}
+
+
+.sub-header-buttons-down a,
+.sub-header-buttons-up a,
+.sub-header-buttons-down a:visited,
+.sub-header-buttons-up a:visited,
+.sub-header-buttons-down a:link,
+.sub-header-buttons-up a:link {
+    color: var(--couleur_lien_bouton_haut_bas_noel);
+}
+
+a:link {
+    color: var(--couleur_lien_noel);
+}
+
+a:visited {
+    color: var(--couleur_lien_visite_noel); //#c2999c;
+}
+
+a:active {
+    color: var(--couleur_lien_actif_noel); //#d66c74;
+}
+
+a:hover {
+    color: var(--couleur_lien_survole_noel); //#1df5ff;
+}
+
+
+div.module {
+    background-color: var(--categorie_fond_couleur_noel) !important;
+}
+
+li.row {
+    border-color: #292935;
+    background-color: var(--categorie_fond_couleur_noel); //#1c1418;
+}
+
+
+div.forabg {
+    background-color: var(--categorie_couleur_noel); //#ecdd96 
+}
+
+#qeel h3.qeelTitle,
+div.forumbg.announcement,
+.button1 {
+    background-color: var(--categorie_couleur_noel); //#ead571;
+}
+
+.button2 {
+    background-color: var(--couleur_nouveau_mp_bouton) !important;
+}
+
+.button2:hover {
+    background-color: var(--couleur_nouveau_mp_bouton_survol) !important;
+}
+
+.row2,
+.row1 {
+    background-color: var(--couleur_fond_posts_noel); //#110c0f; 
+}
+
+.postprofile-info {
+    color: var(--couleur_infos_profil_post) !important;
+}
+
+.content,
+span.label span[style="color:#000000;"] {
+    color: var(--couleur_texte_noel) !important; //#FBFBFB !important;
+}
+
+.sousCategories .gensmall {
+    background-color: var(--couleur_bouton_categorie_forum_noel);
+}
+
+a.forumtitle:link,
+.post h2.topic-title a {
+    color: var(--couleur_titre_categorie_noel) !important; //#ecdd96; 
+}
+
+
+
+a.forumtitle:visited {
+    color: var(--couleur_titre_categorie_noel) !important; //#ead571; 
+}
+
+div#postingbox.panel,
+div.sceditor-toolbar,
+div.sceditor-container {
+    background-color: var(--couleur_fond_posts_noel) !important;
+    color: var(--couleur_texte_noel) !important; //#fbfbfb;
+}
+
+.panel.introduction {
+    background-color: transparent !important;
+    /*var(--couleur_fond_posts_noel)!important; */
+}
+
+#privmsgs-menu {
+    background-color: var(--mpsButtonsBackgroundColor) !important;
+    color: var(--mpsButtonFontColor) !important;
+
+
+    a {
+        color: var(--bouton_mp_texte_couleur) !important;
+    }
+
+    a:visited {
+        color: var(--bouton_mp_text_couleur_visite) !important;
+    }
+
+}
+
+.h3,
+h3,
+h2 {
+    border-color: var(--messageTitleUnderline) !important;
+}
+
+h2 {
+    color: var(--messageTitleUnderline) !important;
+}
+
+.postprofile-avatar img {
+    border: 3px solid var(--avatarBorderColor) !important;
+}
+
+span.group-10.usr_grp_clr {
+    color: pink !important;
+}
+
+
+.panel {
+    background-color: var(--couleur_fond_posts_noel) !important;
+}
+
+.block,
+ul#picture_legend {
+    background-color: var(--categorie_fond_couleur_noel); //#1c1418;
+    color: var(--couleur_texte_noel); //#fbfbfb;
+}
+
+.h3,
+label,
+#message-box textarea,
+ul.topiclist {
+    color: var(--couleur_texte_noel); //#fbfbfb;
+}
+
+
+.panel.panelOverride {
+    color: var(--couleur_texte_noel) !important;
+}
+
+
+
+}
