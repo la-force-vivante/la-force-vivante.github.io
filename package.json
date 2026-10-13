@@ -1,0 +1,16 @@
+{
+  "name": "la-force-vivante-site",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc",
+    "build:css": "sass css/style.scss css/style.css --no-source-map",
+    "build:js": "esbuild ts/main.ts --bundle --format=iife --target=es2020 --minify --sourcemap --outfile=js/forum.js",
+    "build": "npm run typecheck && npm run build:css && npm run build:js"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.34",
+    "esbuild": "^0.28.2",
+    "sass": "^1.105.1",
+    "typescript": "^7.0.2"
+  }
+}
