@@ -37,25 +37,25 @@
 }
 
 /* Themes (mimic Stellaris' research colors) */
-.stellaris-bar.physics {
-    --c1: #29e0ff;
-    --c2: #00c5ff;
-    --c3: #00a2d6;
-}
-
-.stellaris-bar.society {
-    --c1: #6bff8e;
-    --c2: #41e271;
-    --c3: #2fb45a;
-}
-
-.stellaris-bar.engineering {
-    --c1: #ffc166;
-    --c2: #ffab3d;
-    --c3: #e68700;
-}
-
 .stellaris-bar {
+    &.physics {
+        --c1: #29e0ff;
+        --c2: #00c5ff;
+        --c3: #00a2d6;
+    }
+
+    &.society {
+        --c1: #6bff8e;
+        --c2: #41e271;
+        --c3: #2fb45a;
+    }
+
+    &.engineering {
+        --c1: #ffc166;
+        --c2: #ffab3d;
+        --c3: #e68700;
+    }
+
     --value: 0;
     /* set per element */
     --max: 100;
@@ -63,97 +63,95 @@
     position: relative;
     height: var(--bar-height);
     background:
-        /* segment ticks */
-        repeating-linear-gradient(to right,
-            transparent 0 calc(10% - 1px),
-            var(--ticks) calc(10% - 1px) 10%),
-        linear-gradient(180deg, #0f151b, #0b1015);
+    /* segment ticks */
+    repeating-linear-gradient(to right,
+        transparent 0 calc(10% - 1px),
+        var(--ticks) calc(10% - 1px) 10%),
+    linear-gradient(180deg, #0f151b, #0b1015);
     /* frame shading */
     border: 1px solid var(--frame-border);
-    box-shadow:
-        inset 0 0 0 1px var(--frame-inner),
-        0 0 40px rgba(0, 255, 255, calc(var(--glow-alpha) * .15));
+    box-shadow: inset 0 0 0 1px var(--frame-inner),
+    0 0 40px rgba(0, 255, 255, calc(var(--glow-alpha) * .15));
     color: var(--text);
     border-radius: 6px;
     overflow: hidden;
     /* Beveled/cut corners */
     clip-path: polygon(var(--cut) 0%, 100% 0%, 100% calc(100% - var(--cut)),
-            calc(100% - var(--cut)) 100%, 0% 100%, 0% var(--cut));
+        calc(100% - var(--cut)) 100%, 0% 100%, 0% var(--cut));
+
+    background-image: repeating-linear-gradient(to right, transparent 0 49px, var(--ticks) 49px 50px),
+    linear-gradient(180deg, #0f151b, #0b1015);
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        width: calc((var(--value) / var(--max)) * 100% - 4px);
+        /* subtract inset */
+        min-width: 0;
+        background:
+            /* animated scanlines */
+            repeating-linear-gradient(135deg,
+                var(--scan) 0 10px,
+                transparent 10px 20px),
+            /* core gradient */
+            linear-gradient(90deg, var(--c1), var(--c2) 60%, var(--c3));
+        box-shadow:
+            inset 0 0 12px rgba(255, 255, 255, .12),
+            0 0 16px 2px color-mix(in oklab, var(--c2), black 20%);
+        border-radius: 4px;
+        animation: scan var(--speed) linear infinite;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        bottom: 2px;
+        left: 2px;
+        width: calc((var(--value) / var(--max)) * 100% - 4px);
+        pointer-events: none;
+        background:
+            linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, .22) 94%, white 100%);
+        mix-blend-mode: screen;
+        border-radius: 4px;
+        mask: linear-gradient(90deg, transparent 0%, black 85%, transparent 100%);
+        /* fade left/right */
+    }
+
+    .label {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center start;
+        padding-inline: 12px;
+        font-weight: 600;
+        letter-spacing: .35px;
+        text-shadow: 0 0 6px rgba(0, 0, 0, .8);
+        color: var(--label);
+        font-family: "Rajdhani", system-ui, sans-serif;
+        text-transform: uppercase;
+        font-size: 12px;
+        pointer-events: none;
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 40%;
+            background: linear-gradient(180deg, var(--shine), transparent);
+            pointer-events: none;
+        }
+    }
+
+    &.slim {
+        --bar-height: 16px;
+        font-size: 11px;
+    }
 }
 
-/* Fill */
-.stellaris-bar::before {
-    content: "";
-    position: absolute;
-    inset: 2px;
-    width: calc((var(--value) / var(--max)) * 100% - 4px);
-    /* subtract inset */
-    min-width: 0;
-    background:
-        /* animated scanlines */
-        repeating-linear-gradient(135deg,
-            var(--scan) 0 10px,
-            transparent 10px 20px),
-        /* core gradient */
-        linear-gradient(90deg, var(--c1), var(--c2) 60%, var(--c3));
-    box-shadow:
-        inset 0 0 12px rgba(255, 255, 255, .12),
-        0 0 16px 2px color-mix(in oklab, var(--c2), black 20%);
-    border-radius: 4px;
-    animation: scan var(--speed) linear infinite;
-}
-
-/* Glowing rim along the filled edge */
-.stellaris-bar::after {
-    content: "";
-    position: absolute;
-    top: 2px;
-    bottom: 2px;
-    left: 2px;
-    width: calc((var(--value) / var(--max)) * 100% - 4px);
-    pointer-events: none;
-    background:
-        linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, .22) 94%, white 100%);
-    mix-blend-mode: screen;
-    border-radius: 4px;
-    mask: linear-gradient(90deg, transparent 0%, black 85%, transparent 100%);
-    /* fade left/right */
-}
-
-/* Label */
-.stellaris-bar .label {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center start;
-    padding-inline: 12px;
-    font-weight: 600;
-    letter-spacing: .35px;
-    text-shadow: 0 0 6px rgba(0, 0, 0, .8);
-    color: var(--label);
-    font-family: "Rajdhani", system-ui, sans-serif;
-    text-transform: uppercase;
-    font-size: 12px;
-    pointer-events: none;
-}
-
-/* subtle top shine on the frame */
-.stellaris-bar {
-    background-image:
-        repeating-linear-gradient(to right, transparent 0 49px, var(--ticks) 49px 50px),
-        linear-gradient(180deg, #0f151b, #0b1015);
-}
-
-.stellaris-bar .label::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 40%;
-    background: linear-gradient(180deg, var(--shine), transparent);
-    pointer-events: none;
-}
 
 @keyframes scan {
     from {
@@ -164,13 +162,6 @@
         background-position: 140px 0, 0 0;
     }
 }
-
-/* Optional: narrow variant */
-.stellaris-bar.slim {
-    --bar-height: 16px;
-    font-size: 11px;
-}
-
 
 
 /* Barre effet holo cathodique */
@@ -341,99 +332,6 @@
             rgba(0, 0, 0, 0) 2px);
 }
 
-/* Zerath dialogues (oui je me mets des fonctions pour mes dialogues) */
-@keyframes slidecolors_z {
-    0% {
-        text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 255, 0.0), -0.1em -0.1em 0.1em rgba(153, 102, 204, 1);
-    }
-
-    25% {
-        text-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 255, 0.0), -0.2em -0.2em 0.2em rgba(153, 102, 204, 0.7);
-    }
-
-    50% {
-        text-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 255, 0.0), -0.3em -0.3em 0.3em rgba(153, 102, 204, 0.5);
-    }
-
-    75% {
-        text-shadow: 0.2em -0.2em 0.2em rgba(0, 0, 255, 0.0), -0.2em 0.2em 0.2em rgba(153, 102, 204, 0.7);
-    }
-
-    100% {
-        text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 255, 0.0), -0.1em -0.1em 0.1em rgba(153, 102, 204, 1);
-    }
-}
-
-@keyframes slidecolors_c {
-    0% {
-        text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 255, 0.0), -0.1em -0.1em 0.1em rgba(255, 51, 102, 1);
-    }
-
-    25% {
-        text-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 255, 0.0), -0.2em -0.2em 0.2em rgba(255, 51, 102, 0.7);
-    }
-
-    50% {
-        text-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 255, 0.0), -0.3em -0.3em 0.3em rgba(255, 51, 102, 0.5);
-    }
-
-    75% {
-        text-shadow: 0.2em -0.2em 0.2em rgba(0, 0, 255, 0.0), -0.2em 0.2em 0.2em rgba(255, 51, 102, 0.7);
-    }
-
-    100% {
-        text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 255, 0.0), -0.1em -0.1em 0.1em rgba(255, 51, 102, 1);
-    }
-}
-
-@keyframes slidecolors_z_c {
-    0% {
-        text-shadow: 0.1em 0.1em 0.1em rgba(153, 102, 204, 0.5), -0.1em -0.1em 0.1em rgba(255, 51, 102, 1);
-    }
-
-    25% {
-        text-shadow: 0.2em 0.2em 0.2em rgba(153, 102, 204, 0.7), -0.2em -0.2em 0.2em rgba(255, 51, 102, 0.7);
-    }
-
-    50% {
-        text-shadow: 0.3em 0.3em 0.3em rgba(153, 102, 204, 1), -0.3em -0.3em 0.3em rgba(255, 51, 102, 0.5);
-    }
-
-    75% {
-        text-shadow: 0.2em -0.2em 0.2em rgba(153, 102, 204, 0.7), -0.2em 0.2em 0.2em rgba(255, 51, 102, 0.7);
-    }
-
-    100% {
-        text-shadow: 0.1em 0.1em 0.1em rgba(153, 102, 204, 0.5), -0.1em -0.1em 0.1em rgba(255, 51, 102, 1);
-    }
-}
-
-span.zerath {
-    color: rgba(153, 102, 204, 1);
-    animation: slidecolors_z_c 5s infinite ease-in-out;
-    font-size: 16px;
-    font-family: copperplate;
-}
-
-span.cin {
-    color: rgba(255, 51, 102, 1);
-    animation: slidecolors_c 5s infinite ease-in-out;
-    font-size: 16px;
-    font-family: copperplate;
-}
-
-span.zerath_cin {
-    background-image: linear-gradient(rgba(153, 102, 204, 0.95), rgba(255, 51, 102, 0.7)),
-        url(https://i.gifer.com/Sp6c.gif);
-    background-size: cover;
-    color: transparent;
-    -moz-background-clip: text;
-    -webkit-background-clip: text;
-    text-transform: uppercase;
-    animation: slidecolors_z_c 5s infinite ease-in-out;
-    font-size: 16px;
-    font-family: copperplate;
-}
 
 /* CARTE INTERACTIVE */
 .st1 {
@@ -716,534 +614,8 @@ span.zerath_cin {
     background-color: rgb(var(--red_c), var(--green_c), 0%);
 }
 
-/* PAR ZERATH */
-/* Code pour les barres de réputation fancy*/
-.reps_bar_container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.rep_container {
-    display: flex;
-    --barSize: 10rem;
-    --neg_rep: calc(-1*var(--reputation));
-    --abs: calc(max(var(--reputation), var(--neg_rep)));
-    --sgn_rep: calc(var(--reputation)/var(--abs));
-    --is_pos: calc(min(max(var(--reputation), 0), 1));
-    --is_neg: calc(1 - var(--is_pos));
-    --neg_red: calc((100 * var(--is_neg))*var(--u, 1%));
-    --neg_green: calc((26 * var(--is_neg))*var(--u, 1%));
-    --neg_blue: calc((26 * var(--is_neg))*var(--u, 1%));
-    --pos_red: calc((23 * var(--is_pos))*var(--u, 1%));
-    --pos_green: calc((28 * var(--is_pos))*var(--u, 1%));
-    --pos_blue: calc((50 * var(--is_pos))*var(--u, 1%));
-    --red_c: calc(var(--neg_red) + var(--pos_red));
-    --green_c: calc(var(--neg_green) + var(--pos_green));
-    --blue_c: calc(var(--neg_blue) + var(--pos_blue));
-    --fg: rgb(var(--red_c), var(--green_c), var(--blue_c));
-    --bg_inner: #f0f0f0;
-    /* Doit être changé plus tard */
-}
 
-.reps_bars_container .rep_container:not(:first-child) {
-    margin-top: 6em;
-}
-
-.faction_cercle-wrapper {
-    position: relative;
-    left: calc(var(--barSize) + 1.5rem);
-}
-
-.infoi {
-    position: absolute;
-    top: 0rem;
-    right: 0rem;
-    z-index: 20;
-}
-
-.infoi img {
-    --neg_rot: 0deg;
-    --pos_rot: 225deg;
-    --rot: calc(var(--neg_rot)*var(--is_neg) + var(--pos_rot)*var(--is_pos));
-    --neg_bright: 300%;
-    --pos_bright: 100%;
-    --bright: calc(var(--neg_bright)*var(--is_neg) + var(--pos_bright)*var(--is_pos));
-
-    width: 100%;
-    filter: hue-rotate(var(--rot)) saturate(45%) brightness(var(--bright));
-    z-index: 20;
-}
-
-.rotatingCircle {
-    --size: 4rem;
-    position: relative;
-    animation: growProgressBar 3s 1 forwards;
-    width: var(--size);
-    height: var(--size);
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: radial-gradient(closest-side, var(--bg_inner) 90%, transparent 0 99.9%, var(--bg_inner) 0), conic-gradient(var(--fg) 0% 27%, var(--bg_inner) 27% 33%, var(--fg) 33% 60%, var(--bg_inner) 60% 66%, var(--fg) 66% 93%, var(--bg_inner) 93% 100%);
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: calc(var(--size) / 5);
-    color: var(--fg);
-    animation: inner_grad_animate 7s linear infinite;
-    z-index: 10;
-}
-
-.bgCircle {
-    --size: 4.5rem;
-
-    position: absolute;
-    z-index: 2;
-    width: var(--size);
-    height: var(--size);
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: radial-gradient(closest-side, var(--bg_inner) 95%, transparent 0 99.9%, var(--bg_inner) 0), conic-gradient(var(--fg) 0% 100%);
-    top: -0.25rem;
-    left: -0.25rem;
-}
-
-.loadingCircle {
-    position: absolute;
-    z-index: 1;
-
-    --size: 5rem;
-
-    width: var(--size);
-    height: var(--size);
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: radial-gradient(closest-side, var(--bg_inner) 96%, transparent 0 99.9%, var(--bg_inner) 0), conic-gradient(from 0deg, var(--fg), var(--bg_inner));
-    top: -0.5rem;
-    left: -0.5rem;
-    animation: outer_grad_animate 2s cubic-bezier(0.1, 0.7, 1, 0.1) infinite;
-}
-
-.rep_bar-wrapperL {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    font-family: 'Trebuchet MS', sans-serif;
-    color: var(--fg);
-    position: relative;
-    top: -0.8rem;
-    left: -3rem;
-}
-
-.rep_bar-wrapperR {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    font-family: 'Trebuchet MS', sans-serif;
-    color: var(--fg);
-    position: relative;
-    top: -0.8rem;
-    left: 2rem;
-}
-
-.progressContainerBar {
-
-    display: inline-block;
-    width: var(--barSize);
-    height: calc(var(--barSize)/8);
-    background-color: black;
-    top: -0.75rem;
-    left: -0.75rem;
-    outline: 2px solid var(--fg);
-    border-radius: 5px;
-}
-
-.rep_bar-wrapperR>div>b {
-    opacity: calc(var(--is_pos));
-    /* Controls visibility */
-    pointer-events: calc(var(--is_pos) * 1);
-    /* Controls interaction */
-}
-
-.rep_bar-wrapperL>div>b {
-    opacity: calc(var(--is_neg));
-    /* Controls visibility */
-    pointer-events: calc(var(--is_neg) * 1);
-    /* Controls interaction */
-}
-
-.progress_barFancyL {
-    --margin_neg: calc(100 - var(--abs)*var(--is_neg));
-    margin: 0 calc((var(--margin_neg))*var(--u, 1%));
-    width: calc(((var(--is_neg)*var(--abs))*var(--u, 1%)));
-    display: block;
-    height: 100%;
-    background-color: rgb(var(--red_c), var(--green_c), var(--blue_c));
-    transition: width 0.5s ease;
-    transition: margin 0.5s ease;
-}
-
-.progress_barFancyR {
-    width: calc((var(--is_pos) * var(--abs)) * var(--u, 1%));
-    display: block;
-    height: 100%;
-    background-color: rgb(var(--red_c), var(--green_c), var(--blue_c));
-    transition: width 0.5s ease;
-}
-
-@keyframes inner_grad_animate {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(359deg);
-    }
-}
-
-@keyframes outer_grad_animate {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(-359deg);
-    }
-}
-
-/* PAR ZERATH*/
-/* Code pour le graph de compétences */
-.button_col {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    flex-wrap: wrap;
-    height: 60em;
-}
-
-.button_sw_holder {
-    display: flex;
-    flex-direction: row;
-    flex: 1 0 15%;
-    height: 5em;
-}
-
-.button_sw {
-    width: 100%;
-    height: 7em;
-}
-
-.button_sw:active {
-    background-color: grey;
-}
-
-.button_sw:hover {
-    background-color: #ddf1da;
-}
-
-.button_sw:focus {
-    background-color: #ddf1da;
-}
-
-/*toggle-icon*/
-.toggle-icon {
-    display: block;
-    position: relative;
-    width: 100%;
-    /*margin: -2.2em auto 0 0.2em;*/
-    -webkit-transition: margin 600ms;
-    -moz-transition: margin 600ms;
-    transition: margin 600ms;
-    cursor: pointer;
-}
-
-.toggle-icon .bar {
-    display: block;
-    width: 3.8em;
-    height: 0.2em;
-    margin: 0.9em;
-    border-right: 2.8em solid #fff;
-    border-left: 0.6em solid #d6d6d6;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    -webkit-transition-property: -webkit-transform, margin, border-right-color, box-shadow;
-    -moz-transition-property: -moz-transform, margin, border-right-color, box-shadow;
-    transition-property: transform, margin, border-right-color, box-shadow;
-    -webkit-transition-duration: 600ms;
-    -moz-transition-duration: 600ms;
-    transition-duration: 600ms;
-}
-
-.toggle-icon .bar:nth-of-type(1) {
-    margin: 1.9em 0.9em;
-
-}
-
-.toggle-icon .bar:nth-of-type(1) {
-    -webkit-transform: rotate(-180deg);
-    -moz-transform: rotate(-180deg);
-    -ms-transform: rotate(-180deg);
-    -o-transform: rotate(-180deg);
-    transform: rotate(-180deg);
-}
-
-/*pushed*/
-.draw .toggle-icon {
-    margin: -3.2em 0 0 0.7em;
-}
-
-.draw .bar:nth-of-type(1) {
-    margin-left: 1.4em;
-    -webkit-transform: rotate(-137deg) translate(-3em, -3em);
-    -moz-transform: rotate(-137deg) translate(-3em, -3em);
-    -ms-transform: rotate(-137deg) translate(-3em, -3em);
-    -o-transform: rotate(-137deg) translate(-3em, -3em);
-    transform: rotate(-137deg) translate(-3em, -3em);
-}
-
-.draw .bar:nth-of-type(2) {
-    margin-left: 0.5em;
-    -webkit-transform: rotate(-42deg) translate(-1.5em, 2em);
-    -moz-transform: rotate(-42deg) translate(-1.5em, 2em);
-    -ms-transform: rotate(-42deg) translate(-1.5em, 2em);
-    -o-transform: rotate(-42deg) translate(-1.5em, 2em);
-    transform: rotate(-42deg) translate(-1.5em, 2em);
-}
-
-.draw .bar:nth-of-type(1) {
-    border-right-color: #e9b8b9;
-    box-shadow: 0.4em 0 0.6em 0.1em rgba(205, 40, 44, 0.75);
-}
-
-.draw .bar:nth-of-type(2) {
-    border-right-color: #ddf1da;
-    box-shadow: 0.4em 0 0.6em 0.1em rgba(83, 228, 68, 0.65);
-}
-
-.win .bar:nth-of-type(2) {
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-    border-right-color: #ddf1da;
-    box-shadow: 0.4em 0 0.6em 0.1em rgba(83, 228, 68, 0.65);
-}
-
-.win .bar:nth-of-type(1) {
-    opacity: 0;
-}
-
-.loss .bar:nth-of-type(1) {
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    transform: rotate(90deg);
-    border-right-color: #e9b8b9;
-    box-shadow: 0.4em 0 0.6em 0.1em rgba(205, 40, 44, 0.75);
-}
-
-.loss .bar:nth-of-type(2) {
-    opacity: 0;
-}
-
-/* PAR ZERATH */
-/* Code profil PJ + mise en page administrateur pour boutons gestion des aspects, possessions etc*/
-.panel.panelOverride {
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
-    color: #444;
-    border-radius: 3px;
-    margin-bottom: 24px;
-    overflow: visible;
-    padding: 18px 18px 0;
-    position: relative;
-}
-
-
-button#aspect-btn,
-button#obj-btn,
-button#comp-btn {
-    padding: 0 5px 5px 5px;
-    color: white;
-}
-
-#profile-tab-field-profil #field_id1,
-.not-visible {
-    visibility: hidden;
-    display: none;
-}
-
-.content {
-    line-height: 1.6em;
-}
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-    /*border-bottom: 1px dotted black;*/
-    /* If you want dots under the hoverable text */
-    border: 2px black;
-}
-
-/* Tooltip text */
-.tooltiptext {
-    --click-active: hidden;
-    visibility: var(--click-active);
-    width: 500px;
-    max-height: 500px;
-    background-color: #f0f0f0;
-    border: dashed 1px grey;
-    color: #444;
-    text-align: center;
-    padding: 10px 5px;
-    border-radius: 6px;
-
-    /* Position the tooltip text - see examples below! */
-    position: absolute;
-    z-index: 100;
-    overflow-y: scroll;
-    overflow-x: visible;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-}
-
-.rep_container .tooltiptext {
-    width: 200px;
-    left: 300px;
-}
-
-.rep_container:hover .tooltiptext {
-    visibility: visible;
-}
-
-.button-bg {
-    background-color: #bbb;
-    /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-
-/* The Modal (background) */
-.modal {
-    display: none;
-    /* Hidden by default */
-    position: fixed;
-    /* Stay in place */
-    z-index: 1;
-    /* Sit on top */
-    padding-top: 100px;
-    /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%;
-    /* Full width */
-    height: 100%;
-    /* Full height */
-    overflow: auto;
-    /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0);
-    /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-}
-
-/* The Close Button */
-.close {
-    color: #a9a9a9;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Delete button */
-/* The Close Button */
-.delete {
-    color: #a9a9a9;
-}
-
-.delete:hover,
-.delete:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-input.gen-in,
-textarea.gen-in {
-    background: #eee;
-}
-
-/* Slider for factions */
-.underlay {
-    max-width: 500px;
-    height: 100px;
-}
-
-.container {
-    max-width: 200px;
-    min-height: 20px;
-    position: relative;
-}
-
-.gradient-box {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0.7;
-    background: linear-gradient(to right, #FF0000, #0047AB);
-}
-
-.box-slider {
-    width: 20px;
-    padding: 0;
-    cursor: ew-resize;
-    background: #000;
-    position: absolute;
-}
-
-.box-slider::before {
-    content: '';
-    display: block;
-    width: 4px;
-    height: 100%;
-    background: red;
-    margin: 0 auto;
-}
-
-.rep_grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
 
 /* PAR GALDUR */
 .wrapperPost {

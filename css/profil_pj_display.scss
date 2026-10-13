@@ -1,0 +1,195 @@
+/* PAR ZERATH */
+/* Code profil PJ + mise en page administrateur pour boutons gestion des aspects, possessions etc*/
+.panel.panelOverride {
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    color: #444;
+    border-radius: 3px;
+    margin-bottom: 24px;
+    overflow: visible;
+    padding: 18px 18px 0;
+    position: relative;
+}
+
+
+button#aspect-btn,
+button#obj-btn,
+button#comp-btn {
+    padding: 0 5px 5px 5px;
+    color: white;
+}
+
+#profile-tab-field-profil #field_id1,
+.not-visible {
+    visibility: hidden;
+    display: none;
+}
+
+.content {
+    line-height: 1.6em;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    /*border-bottom: 1px dotted black;*/
+    /* If you want dots under the hoverable text */
+    border: 2px black;
+}
+
+/* Tooltip text */
+.tooltiptext {
+    --click-active: hidden;
+    visibility: var(--click-active);
+    width: 500px;
+    max-height: 500px;
+    background-color: #f0f0f0;
+    border: dashed 1px grey;
+    color: #444;
+    text-align: center;
+    padding: 10px 5px;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 100;
+    overflow-y: scroll;
+    overflow-x: visible;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.rep_container .tooltiptext {
+    width: 200px;
+    left: 300px;
+}
+
+.rep_container:hover .tooltiptext {
+    visibility: visible;
+}
+
+.button-bg {
+    background-color: #bbb;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #a9a9a9;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Delete button */
+/* The Close Button */
+.delete {
+    color: #a9a9a9;
+}
+
+.delete:hover,
+.delete:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+input.gen-in,
+textarea.gen-in {
+    background: #eee;
+}
+
+/* Slider for factions */
+.underlay {
+    max-width: 500px;
+    height: 100px;
+}
+
+.container {
+    max-width: 200px;
+    min-height: 20px;
+    position: relative;
+}
+
+.gradient-box {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.7;
+    background: linear-gradient(to right, #FF0000, #0047AB);
+}
+
+.box-slider {
+    width: 20px;
+    padding: 0;
+    cursor: ew-resize;
+    background: #000;
+    position: absolute;
+}
+
+.box-slider::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 100%;
+    background: red;
+    margin: 0 auto;
+}
+
+.rep_grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

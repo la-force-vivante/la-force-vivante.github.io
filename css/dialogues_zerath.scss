@@ -1,0 +1,93 @@
+/* Zerath dialogues (oui je me mets des fonctions pour mes dialogues) */
+@keyframes slidecolors_z {
+    0% {
+        text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 255, 0.0), -0.1em -0.1em 0.1em rgba(153, 102, 204, 1);
+    }
+
+    25% {
+        text-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 255, 0.0), -0.2em -0.2em 0.2em rgba(153, 102, 204, 0.7);
+    }
+
+    50% {
+        text-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 255, 0.0), -0.3em -0.3em 0.3em rgba(153, 102, 204, 0.5);
+    }
+
+    75% {
+        text-shadow: 0.2em -0.2em 0.2em rgba(0, 0, 255, 0.0), -0.2em 0.2em 0.2em rgba(153, 102, 204, 0.7);
+    }
+
+    100% {
+        text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 255, 0.0), -0.1em -0.1em 0.1em rgba(153, 102, 204, 1);
+    }
+}
+
+@keyframes slidecolors_c {
+    0% {
+        text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 255, 0.0), -0.1em -0.1em 0.1em rgba(255, 51, 102, 1);
+    }
+
+    25% {
+        text-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 255, 0.0), -0.2em -0.2em 0.2em rgba(255, 51, 102, 0.7);
+    }
+
+    50% {
+        text-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 255, 0.0), -0.3em -0.3em 0.3em rgba(255, 51, 102, 0.5);
+    }
+
+    75% {
+        text-shadow: 0.2em -0.2em 0.2em rgba(0, 0, 255, 0.0), -0.2em 0.2em 0.2em rgba(255, 51, 102, 0.7);
+    }
+
+    100% {
+        text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 255, 0.0), -0.1em -0.1em 0.1em rgba(255, 51, 102, 1);
+    }
+}
+
+@keyframes slidecolors_z_c {
+    0% {
+        text-shadow: 0.1em 0.1em 0.1em rgba(153, 102, 204, 0.5), -0.1em -0.1em 0.1em rgba(255, 51, 102, 1);
+    }
+
+    25% {
+        text-shadow: 0.2em 0.2em 0.2em rgba(153, 102, 204, 0.7), -0.2em -0.2em 0.2em rgba(255, 51, 102, 0.7);
+    }
+
+    50% {
+        text-shadow: 0.3em 0.3em 0.3em rgba(153, 102, 204, 1), -0.3em -0.3em 0.3em rgba(255, 51, 102, 0.5);
+    }
+
+    75% {
+        text-shadow: 0.2em -0.2em 0.2em rgba(153, 102, 204, 0.7), -0.2em 0.2em 0.2em rgba(255, 51, 102, 0.7);
+    }
+
+    100% {
+        text-shadow: 0.1em 0.1em 0.1em rgba(153, 102, 204, 0.5), -0.1em -0.1em 0.1em rgba(255, 51, 102, 1);
+    }
+}
+
+span.zerath {
+    color: rgba(153, 102, 204, 1);
+    animation: slidecolors_z_c 5s infinite ease-in-out;
+    font-size: 16px;
+    font-family: copperplate;
+}
+
+span.cin {
+    color: rgba(255, 51, 102, 1);
+    animation: slidecolors_c 5s infinite ease-in-out;
+    font-size: 16px;
+    font-family: copperplate;
+}
+
+span.zerath_cin {
+    background-image: linear-gradient(rgba(153, 102, 204, 0.95), rgba(255, 51, 102, 0.7)),
+        url(https://i.gifer.com/Sp6c.gif);
+    background-size: cover;
+    color: transparent;
+    -moz-background-clip: text;
+    -webkit-background-clip: text;
+    text-transform: uppercase;
+    animation: slidecolors_z_c 5s infinite ease-in-out;
+    font-size: 16px;
+    font-family: copperplate;
+}

@@ -1,0 +1,192 @@
+/* PAR ZERATH */
+/* Code pour les barres de réputation fancy
+Les barres de réputation fancy désignent les barres dans les profils des membres,
+qui sont animées par CSS et dépendent de chaque camp.
+*/
+
+.rep_container {
+    display: flex;
+    --barSize: 10rem;
+    --neg_rep: calc(-1*var(--reputation));
+    --abs: calc(max(var(--reputation), var(--neg_rep)));
+    --sgn_rep: calc(var(--reputation)/var(--abs));
+    --is_pos: calc(min(max(var(--reputation), 0), 1));
+    --is_neg: calc(1 - var(--is_pos));
+    --neg_red: calc((100 * var(--is_neg))*var(--u, 1%));
+    --neg_green: calc((26 * var(--is_neg))*var(--u, 1%));
+    --neg_blue: calc((26 * var(--is_neg))*var(--u, 1%));
+    --pos_red: calc((23 * var(--is_pos))*var(--u, 1%));
+    --pos_green: calc((28 * var(--is_pos))*var(--u, 1%));
+    --pos_blue: calc((50 * var(--is_pos))*var(--u, 1%));
+    --red_c: calc(var(--neg_red) + var(--pos_red));
+    --green_c: calc(var(--neg_green) + var(--pos_green));
+    --blue_c: calc(var(--neg_blue) + var(--pos_blue));
+    --fg: rgb(var(--red_c), var(--green_c), var(--blue_c));
+    --bg_inner: #f0f0f0;
+}
+
+
+.reps_bar_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .rep_container:not(:first-child) {
+        margin-top: 6em;
+    }
+}
+
+.faction_cercle-wrapper {
+    position: relative;
+    left: calc(var(--barSize) + 1.5rem);
+}
+
+.infoi {
+    position: absolute;
+    top: 0rem;
+    right: 0rem;
+    z-index: 20;
+
+    img {
+        --neg_rot: 0deg;
+        --pos_rot: 225deg;
+        --rot: calc(var(--neg_rot)*var(--is_neg) + var(--pos_rot)*var(--is_pos));
+        --neg_bright: 300%;
+        --pos_bright: 100%;
+        --bright: calc(var(--neg_bright)*var(--is_neg) + var(--pos_bright)*var(--is_pos));
+
+        width: 100%;
+        filter: hue-rotate(var(--rot)) saturate(45%) brightness(var(--bright));
+        z-index: 20;
+    }
+}
+
+
+.rotatingCircle {
+    --size: 4rem;
+    position: relative;
+    background: radial-gradient(closest-side, var(--bg_inner) 90%, transparent 0 99.9%, var(--bg_inner) 0), conic-gradient(var(--fg) 0% 27%, var(--bg_inner) 27% 33%, var(--fg) 33% 60%, var(--bg_inner) 60% 66%, var(--fg) 66% 93%, var(--bg_inner) 93% 100%);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: calc(var(--size) / 5);
+    color: var(--fg);
+    animation: growProgressBar 3s forwards, inner_grad_animate 7s linear infinite;
+    z-index: 10;
+}
+
+.bgCircle {
+    --size: 4.5rem;
+    position: absolute;
+    z-index: 2;
+    background: radial-gradient(closest-side, var(--bg_inner) 95%, transparent 0 99.9%, var(--bg_inner) 0), conic-gradient(var(--fg) 0% 100%);
+    top: -0.25rem;
+    left: -0.25rem;
+}
+
+.loadingCircle {
+    position: absolute;
+    z-index: 1;
+
+    --size: 5rem;
+    background: radial-gradient(closest-side, var(--bg_inner) 96%, transparent 0 99.9%, var(--bg_inner) 0), conic-gradient(from 0deg, var(--fg), var(--bg_inner));
+    top: -0.5rem;
+    left: -0.5rem;
+    animation: outer_grad_animate 2s cubic-bezier(0.1, 0.7, 1, 0.1) infinite;
+}
+
+
+.rotatingCircle,
+.bgCircle,
+.loadingCircle {
+    width: var(--size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+
+.rep_bar-wrapperL {
+    --offset: -3rem;
+}
+
+.rep_bar-wrapperR {
+    --offset: 2rem;
+}
+
+
+.rep_bar-wrapperL,
+.rep_bar-wrapperR {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: 'Trebuchet MS', sans-serif;
+    color: var(--fg);
+    position: relative;
+    top: -0.8rem;
+    left: var(--offset);
+}
+
+.progressContainerBar {
+
+    display: inline-block;
+    width: var(--barSize);
+    height: calc(var(--barSize)/8);
+    background-color: black;
+    top: -0.75rem;
+    left: -0.75rem;
+    outline: 2px solid var(--fg);
+    border-radius: 5px;
+}
+
+.progress_barFancyL,
+.progress_barFancyR {
+    display: block;
+    height: 100%;
+    background-color: var(--fg);
+    transition: width .5s ease, margin .5s ease;
+}
+
+.progress_barFancyL {
+    --margin_neg: calc(100 - var(--abs)*var(--is_neg));
+    margin: 0 calc((var(--margin_neg))*var(--u, 1%));
+    width: calc(((var(--is_neg)*var(--abs))*var(--u, 1%)));
+}
+
+.progress_barFancyR {
+    width: calc((var(--is_pos) * var(--abs)) * var(--u, 1%));
+}
+
+
+.rep_bar-wrapperR>div>b {
+    opacity: calc(var(--is_pos));
+    /* Controls visibility */
+    pointer-events: calc(var(--is_pos) * 1);
+    /* Controls interaction */
+}
+
+.rep_bar-wrapperL>div>b {
+    opacity: calc(var(--is_neg));
+    /* Controls visibility */
+    pointer-events: calc(var(--is_neg) * 1);
+    /* Controls interaction */
+}
+
+
+@keyframes inner_grad_animate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes outer_grad_animate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-359deg);
+    }
+}
