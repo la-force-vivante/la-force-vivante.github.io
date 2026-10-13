@@ -1,45 +1,67 @@
-name: Compile SCSS
+name: Build and deploy site
+
+# Type-checks the TypeScript, compiles css/style.scss and bundles ts/ into
+# js/forum.js, then publishes the whole repo to GitHub Pages.
+# The compiled files are NOT committed: they only exist in the deployed site.
+# Requires: Settings → Pages → Build and deployment → Source: "GitHub Actions".
 
 on:
   push:
-    paths:
-      - "**.scss"
-      - ".github/workflows/compile-scss.yml"
+    branches: [main]
   pull_request:
-    paths:
-      - "**.scss"
-      - ".github/workflows/compile-scss.yml"
+  workflow_dispatch:
 
-# Needed so the job can commit style.css back to the branch
-permissions:
-  contents: write
+# Only one deployment at a time; don't cancel one that's already running.
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  compile:
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      # Node is preinstalled on ubuntu-latest, so npx works out of the box.
-      # sass@1 = Dart Sass, the official compiler (node-sass is deprecated).
-      - name: Compile css/style.scss -> css/style.css
-        run: npx --yes sass@1 css/style.scss css/style.css --no-source-map
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
 
-      # On pushes: commit the compiled CSS back to the same branch.
-      # On pull requests: the step above still runs, so the PR check fails
-      # if the SCSS doesn't compile — but nothing is committed (fork PRs
-      # only get a read-only token anyway).
-      - name: Commit compiled CSS
-        if: github.event_name == 'push'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add css/style.css
-          if git diff --staged --quiet; then
-            echo "css/style.css is already up to date."
-          else
-            git commit -m "Compile css/style.scss to css/style.css"
-            git push
-          fi
+      - name: Install build tools
+        run: npm ci
+
+      # On pull requests this is the whole job: it fails on type errors
+      # or SCSS that doesn't compile.
+      - name: Build (type-check, compile SCSS, bundle JS)
+        run: npm run build
+
+      - name: Remove build tools before publishing
+        if: github.event_name != 'pull_request'
+        run: rm -rf node_modules
+
+      - name: Upload site
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
