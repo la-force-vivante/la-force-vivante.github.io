@@ -22,281 +22,58 @@
     font-size: unset;
 }
 
-.wrapperFiche2--marginal .titleFiche2 {
-    background-color: #726091;
-    border-color: #726091;
+
+$fiche-colors: (
+    marginal: #726091,
+    jedi: #428B96,
+    jedi_gris: #595959,
+    jedi_noir: #B83B3B,
+    republique: #E0903A,
+    legion_sith: #DD725D,
+    secte_sith: #DD725D,
+    mandalorien: #719450,
+    independant: #916840,
+    hutt: #5F8192
+);
+
+@each $faction, $color in $fiche-colors {
+    .wrapperFiche2--#{$faction} {
+
+        .titleFiche2,
+        .encadreFiche {
+            background-color: $color;
+            border-color: $color;
+        }
+
+        .captionFactionbox,
+        .subTitleFiche2 {
+            color: $color;
+        }
+
+        &+.titleFiche2 {
+            background-color: $color;
+            border-color: $color;
+        }
+    }
 }
 
-.wrapperFiche2--jedi .titleFiche2 {
-    background-color: #428B96;
-    border-color: #428B96;
-}
+.wrapperFiche2--tifar {
 
-.wrapperFiche2--jedi_gris .titleFiche2 {
-    background-color: #595959;
-    border-color: #595959;
-}
+    .titleFiche2,
+    .encadreFiche,
+    &+.titleFiche2 {
+        background-image: linear-gradient(to right,
+                rgba(223, 223, 223, 0),
+                rgba(72, 50, 72, 1));
+        background-color: transparent;
+        color: lightcyan;
+    }
 
-.wrapperFiche2--jedi_noir .titleFiche2 {
-    background-color: #B83B3B;
-    border-color: #B83B3B;
-}
+    .captionFactionbox {
+        color: lightcyan;
+    }
 
-.wrapperFiche2--republique .titleFiche2 {
-    background-color: #E0903A;
-    border-color: #E0903A;
-}
-
-.wrapperFiche2--legion_sith .titleFiche2 {
-    background-color: #DD725D;
-    border-color: #DD725D;
-}
-
-.wrapperFiche2--secte_sith .titleFiche2 {
-    background-color: #DD725D;
-    border-color: #DD725D;
-}
-
-.wrapperFiche2--mandalorien .titleFiche2 {
-    background-color: #FF7729;
-    border-color: #FF7729;
-}
-
-.wrapperFiche2--independant .titleFiche2 {
-    background-color: #916840;
-    border-color: #916840;
-}
-
-.wrapperFiche2--mandalorien .titleFiche2 {
-    background-color: #719450;
-    border-color: #719450;
-}
-
-.wrapperFiche2--hutt .titleFiche2 {
-    background-color: #5F8192;
-    border-color: #5F8192;
-}
-
-.wrapperFiche2--tifar .titleFiche2 {
-    background-image: linear-gradient(to right, rgba(223, 223, 223, 0), rgba(72, 50, 72, 1));
-    background-color: transparent;
-    color: lightcyan;
-}
-
-.wrapperFiche2--marginal .encadreFiche {
-    background-color: #726091;
-    border-color: #726091;
-}
-
-.wrapperFiche2--jedi .encadreFiche {
-    background-color: #428B96;
-    border-color: #428B96;
-}
-
-.wrapperFiche2--jedi_gris .encadreFiche {
-    background-color: #595959;
-    border-color: #595959;
-}
-
-.wrapperFiche2--jedi_noir .encadreFiche {
-    background-color: #B83B3B;
-    border-color: #B83B3B;
-}
-
-.wrapperFiche2--republique .encadreFiche {
-    background-color: #E0903A;
-    border-color: #E0903A;
-}
-
-.wrapperFiche2--legion_sith .encadreFiche {
-    background-color: #DD725D;
-    border-color: #DD725D;
-}
-
-.wrapperFiche2--secte_sith .encadreFiche {
-    background-color: #DD725D;
-    border-color: #DD725D;
-}
-
-.wrapperFiche2--mandalorien .encadreFiche {
-    background-color: #FF7729;
-    border-color: #FF7729;
-}
-
-.wrapperFiche2--independant .encadreFiche {
-    background-color: #916840;
-    border-color: #916840;
-}
-
-.wrapperFiche2--mandalorien .encadreFiche {
-    background-color: #719450;
-    border-color: #719450;
-}
-
-.wrapperFiche2--hutt .encadreFiche {
-    background-color: #5F8192;
-    border-color: #5F8192;
-}
-
-.wrapperFiche2--tifar .encadreFiche {
-    background-image: linear-gradient(to right, rgba(223, 223, 223, 0), rgba(72, 50, 72, 1));
-    background-color: transparent;
-    color: lightcyan;
-}
-
-.wrapperFiche2--marginal .captionFactionbox {
-    color: #726091;
-}
-
-.wrapperFiche2--jedi .captionFactionbox {
-    color: #428B96;
-}
-
-.wrapperFiche2--jedi_gris .captionFactionbox {
-    color: #595959;
-}
-
-.wrapperFiche2--jedi_noir .captionFactionbox {
-    color: #B83B3B;
-}
-
-.wrapperFiche2--republique .captionFactionbox {
-    color: #E0903A;
-}
-
-.wrapperFiche2--legion_sith .captionFactionbox {
-    color: #DD725D;
-}
-
-.wrapperFiche2--secte_sith .captionFactionbox {
-    color: #DD725D;
-}
-
-.wrapperFiche2--mandalorien .captionFactionbox {
-    color: #FF7729;
-}
-
-.wrapperFiche2--independant .captionFactionbox {
-    color: #916840;
-}
-
-.wrapperFiche2--mandalorien .captionFactionbox {
-    color: #719450;
-}
-
-.wrapperFiche2--hutt .captionFactionbox {
-    color: #5F8192;
-}
-
-.wrapperFiche2--tifar .captionFactionbox {
-    color: lightcyan;
-}
-
-.wrapperFiche2--marginal .subTitleFiche2 {
-    color: #726091;
-}
-
-.wrapperFiche2--jedi .subTitleFiche2 {
-    color: #428B96;
-}
-
-.wrapperFiche2--jedi_gris .subTitleFiche2 {
-    color: #595959;
-}
-
-.wrapperFiche2--jedi_noir .subTitleFiche2 {
-    color: #B83B3B;
-}
-
-.wrapperFiche2--republique .subTitleFiche2 {
-    color: #E0903A;
-}
-
-.wrapperFiche2--legion_sith .subTitleFiche2 {
-    color: #DD725D;
-}
-
-.wrapperFiche2--secte_sith .subTitleFiche2 {
-    color: #DD725D;
-}
-
-.wrapperFiche2--mandalorien .subTitleFiche2 {
-    color: #FF7729;
-}
-
-.wrapperFiche2--independant .subTitleFiche2 {
-    color: #916840;
-}
-
-.wrapperFiche2--mandalorien .subTitleFiche2 {
-    color: #719450;
-}
-
-.wrapperFiche2--hutt .subTitleFiche2 {
-    color: #5F8192;
-}
-
-.wrapperFiche2--tifar .subTitleFiche2 {
-    color: darkgoldenrod;
-}
-
-.wrapperFiche2--marginal+.titleFiche2 {
-    background-color: #726091;
-    border-color: #726091;
-}
-
-.wrapperFiche2--jedi+.titleFiche2 {
-    background-color: #428B96;
-    border-color: #428B96;
-}
-
-.wrapperFiche2--jedi_gris+.titleFiche2 {
-    background-color: #595959;
-    border-color: #595959;
-}
-
-.wrapperFiche2--jedi_noir+.titleFiche2 {
-    background-color: #B83B3B;
-    border-color: #B83B3B;
-}
-
-.wrapperFiche2--republique+.titleFiche2 {
-    background-color: #E0903A;
-    border-color: #E0903A;
-}
-
-.wrapperFiche2--legion_sith+.titleFiche2 {
-    background-color: #DD725D;
-    border-color: #DD725D;
-}
-
-.wrapperFiche2--secte_sith+.titleFiche2 {
-    background-color: #DD725D;
-    border-color: #DD725D;
-}
-
-.wrapperFiche2--mandalorien+.titleFiche2 {
-    background-color: #FF7729;
-    border-color: #FF7729;
-}
-
-.wrapperFiche2--independant+.titleFiche2 {
-    background-color: #916840;
-    border-color: #916840;
-}
-
-.wrapperFiche2--mandalorien+.titleFiche2 {
-    background-color: #719450;
-    border-color: #719450;
-}
-
-.wrapperFiche2--hutt+.titleFiche2 {
-    background-color: #5F8192;
-    border-color: #5F8192;
-}
-
-.wrapperFiche2--tifar+.titleFiche2 {
-    background-image: linear-gradient(to right, rgba(223, 223, 223, 0), rgba(72, 50, 72, 1));
-    background-color: transparent;
-    color: lightcyan;
+    .subTitleFiche2 {
+        color: darkgoldenrod;
+    }
 }
