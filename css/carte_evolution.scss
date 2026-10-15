@@ -1,0 +1,380 @@
+@use "sass:map";
+
+// ── Configuration ─────────────────────────────────────────────
+$card-width: 300px;
+$card-height: 420px;
+$card-radius: 16px;
+$mobile-breakpoint: 400px;
+$hexagon: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+
+$factions: (
+    republic: orange,
+    empire: #d14c4c,
+    jedi: #c9ae62,
+    sith: #b72c37
+);
+
+$categories: (
+    tech: #40c7e8,
+    eco: #d9a441,
+    politique: #527fdb,
+    societe: #ad70dc,
+    militaire: #d65353,
+    renseignement: #59b68a,
+    heritage: #e1c477
+);
+
+@mixin centered-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin hexagon {
+    clip-path: $hexagon;
+}
+
+// ── Collection ────────────────────────────────────────────────
+.faction-deck {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 30px 15px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    >h1 {
+        width: 100%;
+        margin: 0 0 25px;
+        color: #e9edf5;
+        font-size: 28px;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+}
+
+// ── Carte ─────────────────────────────────────────────────────
+.faction-card {
+    --faction-accent: #6aaee8;
+    --category-accent: #40c7e8;
+
+    position: relative;
+    flex: 0 0 $card-width;
+    width: $card-width;
+    height: $card-height;
+    margin: 0;
+    padding: 5px;
+    overflow: hidden;
+    border: 2px solid #75818e;
+    border-radius: $card-radius;
+    background: linear-gradient(135deg, #263542, #101820 45%, #354653);
+    transition: transform .2s ease, box-shadow .2s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, .55),
+            0 0 14px rgba(64, 199, 232, .15);
+    }
+
+    @each $name, $color in $factions {
+        &--#{$name} {
+            --faction-accent: #{$color};
+        }
+    }
+
+    @each $name, $color in $categories {
+        &--#{$name} {
+            --category-accent: #{$color};
+        }
+    }
+
+    &__shell {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 11px;
+        background: #111923;
+        isolation: isolate;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: linear-gradient(180deg,
+                    rgba(5, 10, 18, .94) 0%,
+                    rgba(5, 10, 18, .48) 19%,
+                    transparent 42%,
+                    rgba(5, 10, 18, .25) 56%,
+                    rgba(5, 10, 18, .96) 100%);
+        }
+    }
+
+    &__art {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    &__header {
+        position: absolute;
+        top: 16px;
+        right: 8px;
+        left: 8px;
+        z-index: 3;
+        display: grid;
+        grid-template-columns: 38px minmax(0, 1fr) 42px;
+        grid-template-rows: auto auto;
+        gap: 3px 5px;
+        align-items: center;
+    }
+
+    &__heading {
+        display: contents;
+    }
+
+    &__eyebrow {
+        grid-area: 1 / 2;
+        color: #e8edf4;
+        font-size: 9px;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        text-shadow: 0 1px 3px black;
+    }
+
+    &__title {
+        grid-area: 2 / 2;
+        @include centered-flex;
+        min-height: 30px;
+        margin: 0;
+        padding: 5px 9px;
+        border: 2px solid #f2f2f5;
+        border-radius: 999px;
+        background: rgba(13, 17, 28, .94);
+        color: white;
+        font-size: 11px;
+        font-weight: 900;
+        line-height: 1.2;
+        text-align: center;
+        text-transform: uppercase;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, .65),
+            0 3px 7px rgba(0, 0, 0, .45);
+    }
+
+    &__level {
+        grid-area: 2 / 1;
+        @include centered-flex;
+        @include hexagon;
+        justify-self: center;
+        width: 36px;
+        height: 40px;
+        background: linear-gradient(145deg, #ffe59c, #d6a935 55%, #8e671b);
+        color: white;
+        font-size: 21px;
+        font-weight: 900;
+        text-shadow: 0 2px 2px rgba(0, 0, 0, .9);
+    }
+
+    &__icons {
+        grid-area: 2 / 3;
+        position: relative;
+        justify-self: center;
+        width: 42px;
+        height: 0;
+        z-index: 4;
+    }
+
+    &__symbol_faction,
+    &__categorie_icone {
+        @include centered-flex;
+        @include hexagon;
+        position: absolute;
+        left: 50%;
+        width: 38px;
+        height: 44px;
+        transform: translateX(-50%);
+        isolation: isolate;
+        background: var(--badge-color);
+        background: linear-gradient(145deg,
+                color-mix(in srgb, var(--badge-color), white 45%),
+                var(--badge-color) 35%,
+                color-mix(in srgb, var(--badge-color), black 30%) 75%,
+                color-mix(in srgb, var(--badge-color), white 20%));
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            z-index: 0;
+            @include hexagon;
+            background: #101521;
+            background: linear-gradient(145deg,
+                    color-mix(in srgb, var(--badge-color), #101521 75%),
+                    color-mix(in srgb, var(--badge-color), #080b14 90%));
+        }
+
+        img {
+            position: relative;
+            z-index: 1;
+            display: block;
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .8));
+        }
+    }
+
+    &__symbol_faction {
+        --badge-color: var(--faction-accent);
+        bottom: 4px;
+    }
+
+    &__categorie_icone {
+        --badge-color: var(--category-accent);
+        top: 4px;
+    }
+
+    &__main_body {
+        position: absolute;
+        right: 9px;
+        bottom: 9px;
+        left: 9px;
+        z-index: 2;
+        color: white;
+    }
+
+    &__tags {
+        position: relative;
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 5px 25px;
+        background: rgba(235, 239, 244, .96);
+        color: #18202b;
+        clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0 100%);
+        font-size: 9px;
+        font-weight: 900;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    &__text-box {
+        padding: 4px;
+        border: 1px solid var(--faction-accent);
+        border-radius: 5px;
+        background: rgba(12, 19, 30, .43);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, .4);
+
+        .main_description {
+            margin: 0;
+            padding: 0;
+            color: #f1f3f7;
+            font-size: 11px;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .quote {
+            margin: 2px 0 0;
+            padding: 0;
+            border-top: 1px solid rgba(255, 255, 255, .22);
+            color: #b9c9da;
+            font-size: 10px;
+            font-style: italic;
+            line-height: 1.35;
+
+            small {
+                display: block;
+                margin-top: 3px;
+                color: #93a8bd;
+                font-size: 9px;
+                font-style: normal;
+                text-align: right;
+            }
+        }
+    }
+
+    .origin {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 8px;
+        padding: 2px;
+        color: #c9d4e0;
+        font-size: 9px;
+        line-height: 1.5;
+
+        strong {
+            color: white;
+        }
+
+        a {
+            color: var(--faction-accent);
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__code {
+        flex-shrink: 0;
+        color: var(--faction-accent);
+        font-size: 9px;
+        font-weight: 900;
+        letter-spacing: .5px;
+    }
+}
+
+// ── Mobile ────────────────────────────────────────────────────
+@media (max-width: $mobile-breakpoint) {
+    .faction-deck {
+        padding: 15px 5px;
+        gap: 15px;
+    }
+
+    .faction-card {
+        flex-basis: 290px;
+        width: 290px;
+
+        &__title {
+            padding: 5px 6px;
+            font-size: 10px;
+        }
+
+        &__header {
+            grid-template-columns: 35px minmax(0, 1fr) 38px;
+        }
+
+        &__icons {
+            width: 38px;
+        }
+
+        // Même silhouette sur mobile : seul le format change.
+        &__symbol_faction,
+        &__categorie_icone {
+            width: 35px;
+            height: 41px;
+        }
+    }
+}
