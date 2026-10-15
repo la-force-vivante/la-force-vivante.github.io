@@ -25,7 +25,20 @@ $categories: (
     societe: #ad70dc,
     militaire: #d65353,
     renseignement: #59b68a,
-    heritage: #e1c477
+    heritage: #e1c477,
+    sabotage: #B83D50
+);
+
+$rarities: (
+    1: #8997A6,
+    // Acier
+    2: #B98252,
+    // Bronze
+    3: #478EC7,
+    // Bleu
+    4: #9661C5,
+    // Violet
+    5: #D6A935 // Or
 );
 
 @mixin centered-flex {
@@ -71,6 +84,7 @@ $categories: (
 .faction-card {
     --faction-accent: #6aaee8;
     --category-accent: #40c7e8;
+    --level-accent: #8997A6;
 
     position: relative;
     flex: 0 0 $card-width;
@@ -99,6 +113,12 @@ $categories: (
     @each $name, $color in $categories {
         &--#{$name} {
             --category-accent: #{$color};
+        }
+    }
+
+    @each $level, $color in $rarities {
+        .faction-card.faction-card--level-#{$level} {
+            --level-accent: #{$color};
         }
     }
 
@@ -191,7 +211,10 @@ $categories: (
         justify-self: center;
         width: 36px;
         height: 40px;
-        background: linear-gradient(145deg, #ffe59c, #d6a935 55%, #8e671b);
+        background: linear-gradient(145deg,
+                color-mix(in srgb, var(--level-accent), white 45%),
+                var(--level-accent) 55%,
+                color-mix(in srgb, var(--level-accent), black 35%));
         color: white;
         font-size: 21px;
         font-weight: 900;
@@ -347,6 +370,46 @@ $categories: (
         font-size: 9px;
         font-weight: 900;
         letter-spacing: .5px;
+    }
+
+    &.faction-card--sabotage {
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            z-index: 5;
+
+            background: linear-gradient(90deg,
+                    transparent,
+                    #E65B6C,
+                    transparent);
+
+            pointer-events: none;
+        }
+
+        // Voile rouge sur l'illustration
+        .faction-card__shell::after {
+            background:
+                linear-gradient(135deg,
+                    rgba(130, 10, 25, .22),
+                    transparent 55%,
+                    rgba(95, 0, 15, .30)),
+                linear-gradient(180deg,
+                    rgba(5, 10, 18, .94) 0%,
+                    rgba(5, 10, 18, .48) 19%,
+                    transparent 42%,
+                    rgba(5, 10, 18, .25) 56%,
+                    rgba(5, 10, 18, .96) 100%);
+        }
+
+        // Cartouche des tags
+        .faction-card__tags {
+            background: var(--category-accent);
+            color: white;
+        }
     }
 }
 

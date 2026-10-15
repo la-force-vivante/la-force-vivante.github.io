@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Sabotage — engrenage brisé par un éclair</title>
+  <!-- Icône monochrome conçue pour rester lisible dans un badge de 38 px. -->
+  <g fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M26 7h12l1.5 7.2 5.5 2.3 6.2-4 8.4 8.4-4 6.2 1.6 4.2M55 39l-3.2 5.8 4 6.2-8.4 8.4-6.2-4-5.5 2.3L34 63H22l-1.5-7.2-5.5-2.3-6.2 4L.4 49.1l4-6.2-2.3-5.5L-5 36" transform="translate(5 -3) scale(.9)"/>
+    <path d="M22 26a13 13 0 0 1 19-5M42 39a13 13 0 0 1-19 4"/>
+  </g>
+  <path d="M36 9 18 35h13l-4 20 20-29H34z" fill="#fff" stroke="#101521" stroke-width="2.4" stroke-linejoin="round"/>
+</svg>
