@@ -104,20 +104,23 @@ $rarities: (
             0 0 14px rgba(64, 199, 232, .15);
     }
 
+    // ── Couleurs des factions ─────────────────────────────────────
     @each $name, $color in $factions {
-        &--#{$name} {
+        &.faction-card--#{$name} {
             --faction-accent: #{$color};
         }
     }
 
+    // ── Couleurs des catégories ───────────────────────────────────
     @each $name, $color in $categories {
-        &--#{$name} {
+        &.faction-card--#{$name} {
             --category-accent: #{$color};
         }
     }
 
+    // ── Couleurs des raretés ──────────────────────────────────────
     @each $level, $color in $rarities {
-        .faction-card.faction-card--level-#{$level} {
+        &.faction-card--level-#{$level} {
             --level-accent: #{$color};
         }
     }
